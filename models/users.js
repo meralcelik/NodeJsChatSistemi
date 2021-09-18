@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const findOrCreate = require('mongoose-find-or-create');
+const findOrCreate = require('mongoose-findorcreate')
 
 const userSchema = new Schema({
 	googleId: {
@@ -8,7 +8,7 @@ const userSchema = new Schema({
 		unique: true
 	},
 	name: String,
-	surname: String, 
+	surname: String,
 	profilePhotoUrl: String
 });
 

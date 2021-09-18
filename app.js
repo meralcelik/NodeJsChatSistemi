@@ -4,9 +4,12 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const passport = require('passport');
+const redis = require('redis')
+const session = require('express-session')
 
+let RedisStore = require('connect-redis')(session)
+let redisClient = redis.createClient()
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -15,14 +18,13 @@ const index = require('./routes/index');
 const auth = require('./routes/auth');
 const chat = require('./routes/chat');
 
-
 const app = express();
 
 // helpers
 const db = require('./helpers/db')();
 
 // middlewares
-
+const isAuthenticated = require('./middleware/isAuthenticated');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 
 // express-session
 app.use(session({
-
+	store: new RedisStore({ client: redisClient }),
 	secret: process.env.SESSION_SECRET_KEY,
 	resave: false,
 	saveUninitialized: true,
@@ -52,7 +54,7 @@ app.use(passport.session());
 
 app.use('/', index);
 app.use('/auth', auth);
-app.use('/chat', chat);
+app.use('/chat', isAuthenticated, chat);
 
 
 // catch 404 and forward to error handler
