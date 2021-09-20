@@ -17,6 +17,8 @@ dotenv.config();
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const chat = require('./routes/chat');
+const messages = require('./routes/messages');
+
 
 const app = express();
 
@@ -55,6 +57,7 @@ app.use(passport.session());
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/chat', isAuthenticated, chat);
+app.use('/messages', isAuthenticated, messages);
 
 
 // catch 404 and forward to error handler

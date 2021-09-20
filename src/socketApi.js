@@ -37,6 +37,7 @@ io.on('connection', socket => {
 	});
 
 	socket.on('newMessage', data => {
+		// console.log(data);
 		const messageData = {
 			...data,
 			userId: socket.request.user._id,

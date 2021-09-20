@@ -51,6 +51,7 @@ app.controller('chatController', ['$scope', 'userFactory','chatFactory', ($scope
 	});
 
 	$scope.newMessage = () => {
+		// console.log($scope.message);
 		if ($scope.message.trim() !== '') {
 			socket.emit('newMessage', {
 				message: $scope.message,
@@ -63,7 +64,7 @@ app.controller('chatController', ['$scope', 'userFactory','chatFactory', ($scope
 				surname: $scope.user.surname,
 				message: $scope.message
 			});
-
+  
 			$scope.message = '';
 		}
 	};
